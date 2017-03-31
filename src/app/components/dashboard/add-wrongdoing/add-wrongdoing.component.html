@@ -1,0 +1,36 @@
+<!--ADD WRONGDOING MODAL-->
+
+<div class="modal fade" id="addWrongdoing" tabindex="-1" role="dialog" aria-labelledby="addWrongdoingLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="addWrongdoingLabel">Add a new person to the list.</h4>
+      </div>
+      <div class="modal-body">
+        <form [formGroup]="formAddWrongdoing" (ngSubmit)="addNewWrongdoing()">
+          <div>
+            <div class="form-group" [class.has-error]="formAddWrongdoing.controls.personName.touched && formAddWrongdoing.controls.personName.hasError('required')">
+              <label>Person Name<span class="text-danger">*</span></label>
+              <input type="text" class="form-control" formControlName="personName">
+              <span class="text-danger" *ngIf="formAddWrongdoing.controls.personName.touched && formAddWrongdoing.controls.personName.hasError('required')">Better add a name or a nickname.</span>
+            </div>
+            <div class="form-group" [class.has-error]="formAddWrongdoing.controls.reason.touched && formAddWrongdoing.controls.reason.hasError('required')">
+              <label>Reason<span class="text-danger">*</span></label>
+              <textarea class="form-control" formControlName="reason"></textarea>
+              <span class="text-danger" *ngIf="formAddWrongdoing.controls.reason.touched && formAddWrongdoing.controls.reason.hasError('required')">So why would you want to make an appointment with death?</span>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <div class="pull-left"><span class="text-danger">* Required</span></div>
+        <button (click)="formReset()" type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button [disabled]="formAddWrongdoing.invalid" (click)="addNewWrongdoing()" type="button" class="btn button-minwidth" [ngClass]="{'btn-primary': isLoading === false,'btn-warning': isLoading === true}">
+          <span *ngIf="isLoading === false">Add Wrongdoing</span>
+          <div class="text-center"><loading-spinner [visible]="isLoading"></loading-spinner> <span *ngIf="isLoading">Processing...</span></div>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

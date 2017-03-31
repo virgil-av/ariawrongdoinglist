@@ -1,0 +1,111 @@
+<!--TOP BAR + FILTER -->
+<div class="top-bar">
+  <button class="btn btn-sm btn-success" data-toggle="modal" data-target="#addWrongdoing">
+    <i class="glyphicon glyphicon-plus"></i>
+    Add Wrongdoing
+  </button>
+
+  <button *ngIf="!isWrongdoingListEmpty" (click)="filterQuery = 'dead'" class="btn btn-sm btn-info" >
+    <i class="fa fa-times"></i>
+    All Dead
+  </button>
+  <button *ngIf="!isWrongdoingListEmpty" (click)="filterQuery = 'dead by Jagen'" class="btn btn-sm btn-warning">
+    <i class="fa fa-times"></i>
+    Dead by Jagen
+  </button>
+
+  <button *ngIf="filterQuery !== 'alive'" (click)="filterQuery = 'alive'" class="btn btn-sm btn-default">
+    Back to main list
+  </button>
+</div>
+<!--TOP BAR + FILTER -->
+
+
+<div class="container-fluid">
+  <!--IN CASE THE WRONGDOINGLIST IS EMPTY-->
+  <div *ngIf="isLoading || (!isLoading && isWrongdoingListEmpty)" class="row">
+    <div class="col-md-12">
+      <div *ngIf="isLoading" class="loading-box center-spinner text-info text-center">
+        <loading-spinner [visible]="isLoading" [size]="'5x'"></loading-spinner>
+      </div>
+
+      <div *ngIf="!isLoading && isWrongdoingListEmpty" class="no-tasks loading-box">
+        <div class="text-center">
+          <span class="text-warning h5"><strong>There are no persons added to this list!</strong></span>
+          <br /><br />
+          <button class="btn btn-success" data-toggle="modal" data-target="#addWrongdoing">
+            <i class="glyphicon glyphicon-plus"></i>
+            Add Wrongdoing
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!--IN CASE THE WRONGDOINGLIST IS EMPTY-->
+
+
+  <div *ngIf="!isLoading && !isWrongdoingListEmpty">
+    <div class="pull-right">
+      <strong>
+        <span class="text-primary">Jaqen H’agar Debt:</span>
+        <span [class.text-danger]="checkJagen() === false">
+        {{debtCount}}/3
+      </span>
+      </strong>
+    </div>
+
+    <table class="table table-bordered table-condensed">
+      <thead>
+      <tr>
+        <th width="15%">Person Name</th>
+        <th width="24%">Reason</th>
+        <th width="6%">Status</th>
+        <th width="55%">Fate</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let wrongdoing of wrongdoingList | filter: filterQuery">
+        <td>{{wrongdoing.personName}}</td>
+        <td>{{wrongdoing.reason}}</td>
+        <td>
+          <button *ngIf="wrongdoing.status !== 'alive'" class="btn btn-danger btn-xs btn-block">
+            {{wrongdoing.status}}
+        </button>
+
+          <div class="btn-group" *ngIf="wrongdoing.status === 'alive'">
+            <button type="button" class="btn btn-default btn-xs">
+              {{wrongdoing.status}}
+            </button>
+            <button type="button" class="btn btn-default dropdown-toggle btn-xs"
+                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              <span class="caret"></span>
+              <span class="sr-only">Toggle Dropdown</span>
+            </button>
+            <ul class="dropdown-menu">
+              <li><a href="#" (click)="selectPerson('dead',wrongdoing.id)">Dead, add fate</a></li>
+              <li>
+                <a href="#" *ngIf="checkJagen()" (click)="selectPerson('dead by Jagen',wrongdoing.id)">Dead by Jagen</a>
+              </li>
+            </ul>
+          </div>
+        </td>
+        <td>{{wrongdoing.fate}}</td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+
+
+</div>
+
+
+<!--Add Wrongdoing on list, opens modal with form -->
+<app-add-wrongdoing (updateWrongdoingList)="updateList($event)"></app-add-wrongdoing>
+
+
+<!--Edit wrongdoing list-->
+<app-edit-wrongdoing [personStatus]="selectedPersonStatus"
+                     [personId]="selectedPersonId"
+                     (updateSelectedPerson)="updateSelectedPerson($event)">
+
+</app-edit-wrongdoing>
