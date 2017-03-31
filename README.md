@@ -11,7 +11,7 @@ https://virgil-av.github.io/ariawrongdoinglist
 
 ## RestAPI
 - getsandbox.com
-- code for the api is under API.js file
+- code for the api is under src/API.js file
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 1.0.0.
 
