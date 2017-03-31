@@ -1,4 +1,14 @@
-# Ariawrongdoinglist
+# Aria's Wrongdoing List
+
+## Live Demo
+https://virgil-av.github.io/ariawrongdoinglist
+
+## Imports used
+- lodash
+- fontAwesome
+- Bootstrap 3
+- JQuery only for bootstrap elements
+
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 1.0.0.
 
